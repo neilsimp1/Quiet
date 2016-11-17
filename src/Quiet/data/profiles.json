@@ -1,0 +1,20 @@
+﻿[
+	{
+		"name": "123",
+		"username": "111",
+		"hostname": "asdasdad",
+		"group": "default"
+	},
+	{
+		"name": "234",
+		"username": "222",
+		"hostname": "wqefwefw",
+		"group": "default"
+	},
+	{
+		"name": "22fg23f",
+		"username": "@%@%@%",
+		"hostname": "wefwefwef@%$@%",
+		"group": "aaa"
+	}
+]
