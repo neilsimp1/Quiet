@@ -1,13 +1,10 @@
 ﻿using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
 using CommandLine;
-using CommandLine.Text;
-using Newtonsoft.Json;
 
 namespace Quiet {
 	public class Program {
+
+		static ProfileManager pm = new ProfileManager();
 
 		public static int Main(string[] args) {
 			var result = CommandLine.Parser.Default.ParseArguments<AddOptions, ListOptions>(args)
@@ -27,26 +24,13 @@ namespace Quiet {
 		}
 
 		private static int ExecuteList(ListOptions options) {
-			var profiles = GetProfiles(options.Group);
+			var profiles = options.Group != null ? pm.Profiles : pm.FilterByGroup(options.Group);
+
 			foreach(var profile in profiles) Console.WriteLine(profile.ToString());
 
 			return 0;
 		}
 
-		private static IEnumerable<Profile> GetProfiles(string group) {
-			var json = File.ReadAllText("data/profiles.json");
-			var profiles = JsonConvert.DeserializeObject<IEnumerable<Profile>>(json);
-
-			if(group != null) {
-				profiles = profiles.Where(profile => {
-					var isInGroup = profile.Group == group;
-					profile.Group = null;
-					return isInGroup;
-				});
-			}
-
-			return profiles;
-		}
 
 
 		class AddOptions {
