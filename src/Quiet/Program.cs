@@ -24,7 +24,7 @@ namespace Quiet {
 		}
 
 		private static int ExecuteList(ListOptions options) {
-			var profiles = options.Group != null ? pm.Profiles : pm.FilterByGroup(options.Group);
+			var profiles = options.Group != null ? pm.FilterByGroup(options.Group) : pm.Profiles;
 
 			foreach(var profile in profiles) Console.WriteLine(profile.ToString());
 
