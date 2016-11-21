@@ -12,9 +12,9 @@
 		"group": "default"
 	},
 	{
-		"name": "22fg23f",
-		"username": "@%@%@%",
-		"hostname": "wefwefwef@%$@%",
-		"group": "aaa"
+		"name": "HAL",
+		"username": "neil",
+		"hostname": "HAL",
+		"group": "local"
 	}
 ]

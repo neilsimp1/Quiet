@@ -2,7 +2,7 @@
   "profiles": {
     "Quiet": {
       "commandName": "Project",
-      "commandLineArgs": "list -g default"
+      "commandLineArgs": "connect -p HAL"
     }
   }
 }

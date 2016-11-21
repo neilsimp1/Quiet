@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using CommandLine;
 
 namespace Quiet {
@@ -7,9 +8,10 @@ namespace Quiet {
 		static ProfileManager pm = new ProfileManager();
 
 		public static int Main(string[] args) {
-			var result = CommandLine.Parser.Default.ParseArguments<AddOptions, ListOptions>(args)
+			var result = CommandLine.Parser.Default.ParseArguments<ConnectOptions, AddOptions, ListOptions>(args)
 			.MapResult(
-				(AddOptions options) => ExecuteAdd(options)
+				(ConnectOptions options) => ExecuteConnect(options)
+				, (AddOptions options) => ExecuteAdd(options)
 				, (ListOptions options) => ExecuteList(options)
 				, errs => 1
 			);
@@ -18,6 +20,30 @@ namespace Quiet {
 			return result;
 		}
 
+
+		private static int ExecuteConnect(ConnectOptions options) {
+			var profile = pm.GetProfile(options.Profile);
+
+			Process proc = new Process {
+				StartInfo = new ProcessStartInfo {
+					FileName = "ssh"
+					, Arguments = $"{profile.Username}@{profile.Hostname}"
+					, UseShellExecute = false
+					, RedirectStandardOutput = true
+					, CreateNoWindow = false
+				}
+			};
+
+			proc.Start();
+			//// NEED TO DO SOMETHING HERE. PROGRAM IDEALLY SHOULD EXIT, THEN RUN THIS COMMAND.
+			//// IF CANNOT DO THIS, IT SHOULD WAIT while() until IT EXITS, THEN RETURN EXIT CODE 
+			//while(!proc.StandardOutput.EndOfStream) {
+			//	string line = proc.StandardOutput.ReadLine();
+			//	// do something with line
+			//}
+
+			return 0;
+		}
 
 		private static int ExecuteAdd(AddOptions options) {
 			throw new NotImplementedException();
@@ -32,6 +58,13 @@ namespace Quiet {
 		}
 
 
+		[Verb("connect", HelpText = "Connect to a ssh profile")]
+		class ConnectOptions {
+
+			[Option('p', "profile", HelpText = "Specify a profile to connect to")]
+			public string Profile { get; set; }
+
+		}
 
 		class AddOptions {
 
@@ -39,6 +72,7 @@ namespace Quiet {
 			public string Group { get; set; }
 
 		}
+
 
 		[Verb("list", HelpText = "List profiles")]
 		class ListOptions {

@@ -13,6 +13,10 @@ namespace Quiet{
 			Profiles = JsonConvert.DeserializeObject<IEnumerable<Profile>>(json);
 		}
 
+		public Profile GetProfile(string profileName) {
+			return Profiles.First(profile => profile.Name == profileName);
+		}
+
 		public IEnumerable<Profile> FilterByGroup(string group) {
 			return Profiles.Where(profile => {
 				var isInGroup = profile.Group == group;
