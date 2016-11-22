@@ -16,7 +16,6 @@ namespace Quiet {
 				, errs => 1
 			);
 
-			Console.ReadLine();
 			return result;
 		}
 
