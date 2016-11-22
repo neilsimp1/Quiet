@@ -29,18 +29,13 @@ namespace Quiet {
 					FileName = "ssh"
 					, Arguments = $"{profile.Username}@{profile.Hostname}"
 					, UseShellExecute = false
-					, RedirectStandardOutput = true
+					, RedirectStandardOutput = false
 					, CreateNoWindow = false
 				}
 			};
 
 			proc.Start();
-			//// NEED TO DO SOMETHING HERE. PROGRAM IDEALLY SHOULD EXIT, THEN RUN THIS COMMAND.
-			//// IF CANNOT DO THIS, IT SHOULD WAIT while() until IT EXITS, THEN RETURN EXIT CODE 
-			//while(!proc.StandardOutput.EndOfStream) {
-			//	string line = proc.StandardOutput.ReadLine();
-			//	// do something with line
-			//}
+			proc.WaitForExit();
 
 			return 0;
 		}
