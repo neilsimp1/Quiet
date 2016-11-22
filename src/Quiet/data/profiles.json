@@ -14,7 +14,8 @@
 	{
 		"name": "HAL",
 		"username": "neil",
-		"hostname": "HAL",
+		"hostname": "100.4.213.202",
+		"port": "22022",
 		"group": "local"
 	}
 ]

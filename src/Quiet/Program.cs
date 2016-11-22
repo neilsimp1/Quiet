@@ -26,12 +26,13 @@ namespace Quiet {
 			Process proc = new Process {
 				StartInfo = new ProcessStartInfo {
 					FileName = "ssh"
-					, Arguments = $"{profile.Username}@{profile.Hostname}"
+					, Arguments = buildCommand(profile)
 					, UseShellExecute = false
 					, RedirectStandardOutput = false
 					, CreateNoWindow = false
 				}
 			};
+			//Console.WriteLine("ssh " + buildCommand(profile));//////////////////////////////
 
 			proc.Start();
 			proc.WaitForExit();
@@ -50,6 +51,15 @@ namespace Quiet {
 
 			return 0;
 		}
+
+		private static string buildCommand(Profile profile) {
+			System.Text.StringBuilder sb = new System.Text.StringBuilder();
+			
+			sb.Append($"{profile.Username}@{profile.Hostname}");
+			if(profile.Port != null) sb.Append($" -p {profile.Port}");
+
+			return sb.ToString();
+		} 
 
 
 		[Verb("connect", HelpText = "Connect to a ssh profile")]
