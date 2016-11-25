@@ -11,8 +11,7 @@ namespace Quiet{
 		private readonly string profilesPath = GetProfilesPath();
 
 		public ProfileManager() {
-			Console.WriteLine(profilesPath);
-			var json = File.ReadAllText("data/profiles.json");
+			var json = File.ReadAllText(profilesPath);
 			Profiles = JsonConvert.DeserializeObject<IEnumerable<Profile>>(json);
 		}
 
@@ -20,7 +19,7 @@ namespace Quiet{
 			var path = "/.quiet/profiles.json";
 			return System.Runtime.InteropServices.RuntimeInformation.OSDescription.Contains("Windows")
 				? Environment.GetEnvironmentVariable("USERPROFILE") + path
-				: "~/" + path;
+				: "~" + path;
 		}
 
 		public Profile GetProfile(string profileName) {
