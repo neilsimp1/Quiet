@@ -1,3 +1,6 @@
+#Quiet - SSH Profile Manager for Windows, Linux, and Mac
+
+
 Quiet is a CLI SSH profile manager that runs on .Net Core.
 This is not an SSH client itself, but rather a wrapper around your already installed ssh client.
 
