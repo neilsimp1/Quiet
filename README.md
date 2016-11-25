@@ -32,12 +32,12 @@ quiet add -n <profileName> -u <username> -h <hostname> -p <port> -g <profileGrou
 
 ###Delete a profile
 ```
-quiet delete <profileName>
+quiet delete -n <profileName>
 ```
 
 ###Update a profile
 ```
-quiet update -p <profileName> -u <newUsername>
+quiet update -n <profileName> -u <newUsername>
 ```
 
 All CRUD options on the profiles can be done by manually editing the `profiles.json` folder as well. It's as simple a structure as you'd expect.
