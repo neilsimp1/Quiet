@@ -22,6 +22,12 @@ namespace Quiet{
 				: "~" + path;
 		}
 
+		public void AddProfile(Profile profile) {
+			Profiles = Profiles.Concat(new[] { profile });
+			var json = JsonConvert.SerializeObject(Profiles, Formatting.Indented);
+			File.WriteAllText(profilesPath, json);
+		}
+
 		public Profile GetProfile(string profileName) {
 			return Profiles.First(profile => profile.Name == profileName);
 		}

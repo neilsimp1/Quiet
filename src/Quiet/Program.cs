@@ -41,7 +41,22 @@ namespace Quiet {
 		}
 
 		private static int ExecuteAdd(AddOptions options) {
-			throw new NotImplementedException();
+			if(pm.GetProfile(options.Name) != null){
+				Console.WriteLine($"Profile with name `{options.Name}` already set");
+				return -1;
+			}
+
+			var profile = new Profile {
+				Name = options.Name
+				, Username = options.Username
+				, Hostname = options.Hostname
+				, Group = options.Group
+				, Port = options.Port
+			};
+
+			pm.AddProfile(profile);
+
+			return 0;
 		}
 
 		private static int ExecuteList(ListOptions options) {
@@ -70,7 +85,20 @@ namespace Quiet {
 
 		}
 
+		[Verb("add", HelpText = "Add a profile")]
 		class AddOptions {
+
+			[Option('n', "name", HelpText = "Specify a profile name")]
+			public string Name { get; set; }
+			
+			[Option('u', "username", HelpText = "Specify a username to use when connecting")]
+			public string Username { get; set; }
+
+			[Option('h', "host", HelpText = "Specify a host to connect to")]
+			public string Hostname { get; set; }
+
+			[Option('p', "port", HelpText = "Specify a default port to use (if using somethign other than 22)")]
+			public string Port { get; set; }
 
 			[Option('g', "group", Default = "default", HelpText = "Specify a profile group to list")]
 			public string Group { get; set; }
