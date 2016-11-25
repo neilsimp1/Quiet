@@ -8,10 +8,11 @@ namespace Quiet {
 		static ProfileManager pm = new ProfileManager();
 
 		public static int Main(string[] args) {
-			var result = CommandLine.Parser.Default.ParseArguments<ConnectOptions, AddOptions, ListOptions>(args)
+			var result = CommandLine.Parser.Default.ParseArguments<ConnectOptions, AddOptions, DeleteOptions, ListOptions>(args)
 			.MapResult(
 				(ConnectOptions options) => ExecuteConnect(options)
 				, (AddOptions options) => ExecuteAdd(options)
+				, (DeleteOptions options) => ExecuteDelete(options)
 				, (ListOptions options) => ExecuteList(options)
 				, errs => 1
 			);
@@ -21,7 +22,7 @@ namespace Quiet {
 
 
 		private static int ExecuteConnect(ConnectOptions options) {
-			var profile = pm.GetProfile(options.Profile);
+			var profile = pm.GetProfile(options.Name);
 
 			Process proc = new Process {
 				StartInfo = new ProcessStartInfo {
@@ -59,6 +60,20 @@ namespace Quiet {
 			return 0;
 		}
 
+		private static int ExecuteDelete(DeleteOptions options) {
+			try{
+				pm.GetProfile(options.Name);
+			}
+			catch(InvalidOperationException){
+				Console.WriteLine($"Profile with name `{options.Name}` not found");
+				return -1;
+			}
+			
+			pm.DeleteProfile(options.Name);
+
+			return 0;
+		}
+
 		private static int ExecuteList(ListOptions options) {
 			var profiles = options.Group != null ? pm.FilterByGroup(options.Group) : pm.Profiles;
 
@@ -80,8 +95,16 @@ namespace Quiet {
 		[Verb("connect", HelpText = "Connect to a ssh profile")]
 		class ConnectOptions {
 
-			[Option('p', "profile", HelpText = "Specify a profile to connect to")]
-			public string Profile { get; set; }
+			[Option('n', "name", HelpText = "Specify a profile to connect to")]
+			public string Name { get; set; }
+
+		}
+
+		[Verb("delete", HelpText = "Delete ssh profile")]
+		class DeleteOptions {
+
+			[Option('n', "name", HelpText = "Specify a profile to delete")]
+			public string Name { get; set; }
 
 		}
 

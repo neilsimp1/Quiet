@@ -27,6 +27,12 @@ namespace Quiet{
 			var json = JsonConvert.SerializeObject(Profiles, Formatting.Indented);
 			File.WriteAllText(profilesPath, json);
 		}
+		
+		public void DeleteProfile(string profileName) {
+			Profiles = Profiles.Where(profile => profile.Name != profileName);
+			var json = JsonConvert.SerializeObject(Profiles, Formatting.Indented);
+			File.WriteAllText(profilesPath, json);
+		}
 
 		public Profile GetProfile(string profileName) {
 			return Profiles.First(profile => profile.Name == profileName);
