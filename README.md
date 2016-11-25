@@ -27,7 +27,7 @@ quiet connect -n <profileName>
 
 ###Add a profile
 ```
-quiet add -p <profileName> -u <username> -h <hostname> -p <port> -g <profileGroup>
+quiet add -n <profileName> -u <username> -h <hostname> -p <port> -g <profileGroup>
 ```
 
 ###Delete a profile
