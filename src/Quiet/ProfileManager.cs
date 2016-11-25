@@ -11,14 +11,16 @@ namespace Quiet{
 		private readonly string profilesPath = GetProfilesPath();
 
 		public ProfileManager() {
+			Console.WriteLine(profilesPath);
 			var json = File.ReadAllText("data/profiles.json");
 			Profiles = JsonConvert.DeserializeObject<IEnumerable<Profile>>(json);
 		}
 
 		private static string GetProfilesPath() {
+			var path = "/.quiet/profiles.json";
 			return System.Runtime.InteropServices.RuntimeInformation.OSDescription.Contains("Windows")
-				? Environment.GetEnvironmentVariable("USERPROFILE")
-				: "~/.quiet/profiles.json";
+				? Environment.GetEnvironmentVariable("USERPROFILE") + path
+				: "~/" + path;
 		}
 
 		public Profile GetProfile(string profileName) {
