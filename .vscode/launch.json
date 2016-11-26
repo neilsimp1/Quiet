@@ -7,9 +7,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${workspaceRoot}\\src\\Quiet\\bin\\Debug\\netcoreapp1.0\\Quiet.dll",
-            "args": ["delete", "-n", "qwe123"],
+            "args": ["add", "-i"],
             "cwd": "${workspaceRoot}",
-            "externalConsole": false,
+            "externalConsole": true,
             "stopAtEntry": false,
             "internalConsoleOptions": "openOnSessionStart"
         },

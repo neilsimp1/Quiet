@@ -19,7 +19,7 @@ namespace Quiet{
 			var path = "/.quiet/profiles.json";
 			return System.Runtime.InteropServices.RuntimeInformation.OSDescription.Contains("Windows")
 				? Environment.GetEnvironmentVariable("USERPROFILE") + path
-				: "~" + path;
+				: Environment.GetEnvironmentVariable("HOME") + path;
 		}
 
 		public void AddProfile(Profile profile) {
@@ -35,7 +35,12 @@ namespace Quiet{
 		}
 
 		public Profile GetProfile(string profileName) {
-			return Profiles.First(profile => profile.Name == profileName);
+			try{
+				return Profiles.First(profile => profile.Name == profileName);
+			}
+			catch(InvalidOperationException){
+				return null;
+			} 
 		}
 
 		public IEnumerable<Profile> FilterByGroup(string group) {
