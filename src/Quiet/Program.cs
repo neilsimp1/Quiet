@@ -34,6 +34,11 @@ namespace Quiet {
 
 		private static int ExecuteConnect(ConnectOptions options) {
 			var profile = pm.GetProfile(options.Name);
+			if(profile == null){
+				Console.WriteLine($"Profile with name `{options.Name}` not found");
+				return -1;
+			}
+
 			var args = BuildCommand(profile);
 
 			Process proc = new Process {
