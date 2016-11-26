@@ -17,8 +17,8 @@ namespace Quiet {
 				return result;
 			}
 			else{
-				result = CommandLine.Parser.Default.ParseArguments<ConnectOptions, AddOptions
-					, UpdateOptions, DeleteOptions, ListOptions>(args)
+				result = CommandLine.Parser.Default.ParseArguments<ConnectOptions, ListOptions, AddOptions
+					, UpdateOptions, DeleteOptions>(args)
 				.MapResult(
 					(ConnectOptions options) => ExecuteConnect(options)
 					, (AddOptions options) => options.Interactive ? ExecuteAddInteractive() : ExecuteAdd(options)
@@ -48,6 +48,14 @@ namespace Quiet {
 
 			proc.Start();
 			proc.WaitForExit();
+
+			return 0;
+		}
+
+		private static int ExecuteList(ListOptions options) {
+			var profiles = options.Group != null ? pm.FilterByGroup(options.Group) : pm.Profiles;
+
+			foreach(var profile in profiles) Console.WriteLine(profile.ToString());
 
 			return 0;
 		}
@@ -184,14 +192,6 @@ namespace Quiet {
 			}
 			
 			pm.DeleteProfile(options.Name);
-
-			return 0;
-		}
-
-		private static int ExecuteList(ListOptions options) {
-			var profiles = options.Group != null ? pm.FilterByGroup(options.Group) : pm.Profiles;
-
-			foreach(var profile in profiles) Console.WriteLine(profile.ToString());
 
 			return 0;
 		}
