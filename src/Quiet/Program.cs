@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using CommandLine;
+using Quiet.Options;
 
 namespace Quiet {
 	public class Program {
@@ -167,7 +168,7 @@ namespace Quiet {
 
 			return 0;
 		}
-
+		
 		private static int ExecuteDelete(DeleteOptions options) {
 			if(pm.GetProfile(options.Name) == null){
 				Console.WriteLine($"Profile with name `{options.Name}` not found");
@@ -194,84 +195,6 @@ namespace Quiet {
 			if(profile.Port != null) sb.Append($" -p {profile.Port}");
 
 			return sb.ToString();
-		} 
-
-
-		[Verb("connect", HelpText = "Connect to a ssh profile")]
-		class ConnectOptions {
-
-			[Option('n', "name", HelpText = "Specify a profile to connect to")]
-			public string Name { get; set; }
-
-		}
-
-		[Verb("delete", HelpText = "Delete ssh profile")]
-		class DeleteOptions {
-
-			[Option('n', "name", HelpText = "Specify a profile to delete")]
-			public string Name { get; set; }
-
-		}
-
-		[Verb("add", HelpText = "Add a profile")]
-		class AddOptions {
-
-			[Option('n', "name", HelpText = "Specify a profile name")]
-			public string Name { get; set; }
-			
-			[Option('u', "username", HelpText = "Specify a username to use when connecting")]
-			public string Username { get; set; }
-
-			[Option('h', "host", HelpText = "Specify a host to connect to")]
-			public string Hostname { get; set; }
-
-			[Option('p', "port", HelpText = "Specify a default port to use (if using somethign other than 22)")]
-			public string Port { get; set; }
-
-			[Option('g', "group", Default = "default", HelpText = "Specify a profile group to list")]
-			public string Group { get; set; }
-
-			[Option('i', "interactive", HelpText = "Interactive prompt to add a profile")]
-			public bool Interactive { get; set; }
-
-		}
-
-		[Verb("update", HelpText = "Update a profile")]
-		class UpdateOptions {
-
-			[Option('n', "name", HelpText = "Specify a profile name")]
-			public string Name { get; set; }
-
-			[Option('m', "newname", HelpText = "Specify a new profile name")]
-			public string NewName { get; set; }
-			
-			[Option('u', "username", HelpText = "Specify a username to use when connecting")]
-			public string Username { get; set; }
-
-			[Option('h', "host", HelpText = "Specify a host to connect to")]
-			public string Hostname { get; set; }
-
-			[Option('p', "port", HelpText = "Specify a default port to use (if using somethign other than 22)")]
-			public string Port { get; set; }
-
-			[Option('g', "group", Default = "default", HelpText = "Specify a profile group to list")]
-			public string Group { get; set; }
-
-			[Option('i', "interactive", HelpText = "Interactive prompt to add a profile")]
-			public bool Interactive { get; set; }
-
-		}
-
-		[Verb("list", HelpText = "List profiles")]
-		class ListOptions {
-
-			//// Save for telnet support?
-			//[Option('t', "type", HelpText = "Specify a profile type to list (`ssh`, `telnet`)")]
-			//public string Type { get; set; }
-
-			[Option('g', "group", HelpText = "Specify a profile group to list")]
-			public string Group { get; set; }
-
 		}
 
 	}
