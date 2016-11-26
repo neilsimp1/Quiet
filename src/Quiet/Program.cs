@@ -34,17 +34,18 @@ namespace Quiet {
 
 		private static int ExecuteConnect(ConnectOptions options) {
 			var profile = pm.GetProfile(options.Name);
+			var args = BuildCommand(profile);
 
 			Process proc = new Process {
 				StartInfo = new ProcessStartInfo {
 					FileName = "ssh"
-					, Arguments = BuildCommand(profile)
+					, Arguments = args
 					, UseShellExecute = false
 					, RedirectStandardOutput = false
 					, CreateNoWindow = false
 				}
 			};
-			//Console.WriteLine("ssh " + buildCommand(profile));//////////////////////////////
+			//Console.WriteLine($"ssh {args}");
 
 			proc.Start();
 			proc.WaitForExit();
