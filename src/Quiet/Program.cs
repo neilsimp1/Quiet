@@ -23,14 +23,13 @@ namespace Quiet {
 			return result;
 		}
 
-
 		private static int ExecuteConnect(ConnectOptions options) {
 			var profile = pm.GetProfile(options.Name);
 
 			Process proc = new Process {
 				StartInfo = new ProcessStartInfo {
 					FileName = "ssh"
-					, Arguments = buildCommand(profile)
+					, Arguments = BuildCommand(profile)
 					, UseShellExecute = false
 					, RedirectStandardOutput = false
 					, CreateNoWindow = false
@@ -168,7 +167,7 @@ namespace Quiet {
 
 			return 0;
 		}
-		
+
 		private static int ExecuteDelete(DeleteOptions options) {
 			if(pm.GetProfile(options.Name) == null){
 				Console.WriteLine($"Profile with name `{options.Name}` not found");
@@ -188,7 +187,7 @@ namespace Quiet {
 			return 0;
 		}
 
-		private static string buildCommand(Profile profile) {
+		private static string BuildCommand(Profile profile) {
 			System.Text.StringBuilder sb = new System.Text.StringBuilder();
 			
 			sb.Append($"{profile.Username}@{profile.Hostname}");
