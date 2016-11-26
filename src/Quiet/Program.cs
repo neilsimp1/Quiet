@@ -8,10 +8,12 @@ namespace Quiet {
 		static ProfileManager pm = new ProfileManager();
 
 		public static int Main(string[] args) {
-			var result = CommandLine.Parser.Default.ParseArguments<ConnectOptions, AddOptions, DeleteOptions, ListOptions>(args)
+			var result = CommandLine.Parser.Default.ParseArguments<ConnectOptions, AddOptions
+				, UpdateOptions, DeleteOptions, ListOptions>(args)
 			.MapResult(
 				(ConnectOptions options) => ExecuteConnect(options)
 				, (AddOptions options) => options.Interactive ? ExecuteAddInteractive() : ExecuteAdd(options)
+				, (UpdateOptions options) => options.Interactive ? ExecuteUpdateInteractive() : ExecuteUpdate(options)
 				, (DeleteOptions options) => ExecuteDelete(options)
 				, (ListOptions options) => ExecuteList(options)
 				, errs => 1
@@ -49,8 +51,8 @@ namespace Quiet {
 
 			var profile = new Profile {
 				Name = options.Name
-				, Username = options.Username
 				, Hostname = options.Hostname
+				, Username = options.Username
 				, Group = options.Group
 				, Port = options.Port
 			};
@@ -97,6 +99,65 @@ namespace Quiet {
 			pm.AddProfile(profile);
 
 			return 0;
+		}
+
+		private static int ExecuteUpdate(UpdateOptions options) {
+			if(pm.GetProfile(options.Name) == null){
+				Console.WriteLine($"Profile with name `{options.Name}` not found");
+				return -1;
+			}
+
+			var profile = new Profile {
+				Name = options.NewName == null ? options.Name : options.NewName
+				, Hostname = options.Hostname
+				, Username = options.Username
+				, Group = options.Group
+				, Port = options.Port
+			};
+
+			pm.UpdateProfile(profile, options.Name);
+
+			return 0;
+		}
+
+		private static int ExecuteUpdateInteractive() {
+			throw new NotImplementedException();
+			// string name;
+			// while(true){
+			// 	Console.Write("Name: ");
+			// 	name = Console.ReadLine();
+			// 	if(pm.GetProfile(name) != null){
+			// 		Console.WriteLine($"Profile with name `{name}` already set");
+			// 	}
+			// 	else break;
+			// }
+
+			// Console.Write("Hostname: ");
+			// var hostname = Console.ReadLine();
+			
+			// Console.Write("Username: ");
+			// var username = Console.ReadLine();
+
+			// Console.Write("Port (22): ");
+			// var _port = Console.ReadLine();
+			// var port = _port == string.Empty ? null : _port;
+
+			// Console.Write("Group (default): ");
+			// var _group = Console.ReadLine();
+			// var group = _group == string.Empty ? "default" : _group;
+
+
+			// var profile = new Profile {
+			// 	Name = name
+			// 	, Username = username
+			// 	, Hostname = hostname
+			// 	, Group = group
+			// 	, Port = port
+			// };
+
+			// pm.AddProfile(profile);
+
+			// return 0;
 		}
 
 		private static int ExecuteDelete(DeleteOptions options) {
@@ -167,6 +228,31 @@ namespace Quiet {
 
 		}
 
+		[Verb("update", HelpText = "Update a profile")]
+		class UpdateOptions {
+
+			[Option('n', "name", HelpText = "Specify a profile name")]
+			public string Name { get; set; }
+
+			[Option('m', "newname", HelpText = "Specify a new profile name")]
+			public string NewName { get; set; }
+			
+			[Option('u', "username", HelpText = "Specify a username to use when connecting")]
+			public string Username { get; set; }
+
+			[Option('h', "host", HelpText = "Specify a host to connect to")]
+			public string Hostname { get; set; }
+
+			[Option('p', "port", HelpText = "Specify a default port to use (if using somethign other than 22)")]
+			public string Port { get; set; }
+
+			[Option('g', "group", Default = "default", HelpText = "Specify a profile group to list")]
+			public string Group { get; set; }
+
+			[Option('i', "interactive", HelpText = "Interactive prompt to add a profile")]
+			public bool Interactive { get; set; }
+
+		}
 
 		[Verb("list", HelpText = "List profiles")]
 		class ListOptions {

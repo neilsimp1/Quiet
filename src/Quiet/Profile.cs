@@ -4,8 +4,8 @@ namespace Quiet{
     public class Profile {
 
 		public string Name { get; set; }
-		public string Username { get; set; }
 		public string Hostname { get; set; }
+		public string Username { get; set; }
 		public string Port { get; set; }
 		public string Group { get; set; }
 
