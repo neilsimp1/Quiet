@@ -13,7 +13,7 @@ namespace Quiet {
 			.MapResult(
 				(ConnectOptions options) => ExecuteConnect(options)
 				, (AddOptions options) => options.Interactive ? ExecuteAddInteractive() : ExecuteAdd(options)
-				, (UpdateOptions options) => options.Interactive ? ExecuteUpdateInteractive() : ExecuteUpdate(options)
+				, (UpdateOptions options) => options.Interactive ? ExecuteUpdateInteractive(options.Name) : ExecuteUpdate(options)
 				, (DeleteOptions options) => ExecuteDelete(options)
 				, (ListOptions options) => ExecuteList(options)
 				, errs => 1
@@ -120,44 +120,52 @@ namespace Quiet {
 			return 0;
 		}
 
-		private static int ExecuteUpdateInteractive() {
-			throw new NotImplementedException();
-			// string name;
-			// while(true){
-			// 	Console.Write("Name: ");
-			// 	name = Console.ReadLine();
-			// 	if(pm.GetProfile(name) != null){
-			// 		Console.WriteLine($"Profile with name `{name}` already set");
-			// 	}
-			// 	else break;
-			// }
+		private static int ExecuteUpdateInteractive(string profileName) {
+			var oldProfile = pm.GetProfile(profileName);
+			if(oldProfile == null){
+				Console.WriteLine($"Profile with name `{profileName}` not found");
+				return -1;
+			}
 
-			// Console.Write("Hostname: ");
-			// var hostname = Console.ReadLine();
+			string _name;
+			while(true){
+				Console.Write($"Name ({oldProfile.Name}): ");
+				_name = Console.ReadLine();
+				if(_name != profileName && pm.GetProfile(_name) != null){
+					Console.WriteLine($"Profile with name `{_name}` already set");
+				}
+				else break;
+			}
+			var name = _name == string.Empty ? oldProfile.Name : _name;
 			
-			// Console.Write("Username: ");
-			// var username = Console.ReadLine();
+			Console.Write($"Hostname ({oldProfile.Hostname}): ");
+			var _hostname = Console.ReadLine();
+			var hostname = _hostname == string.Empty ? oldProfile.Hostname : _hostname;
+			
+			Console.Write($"Username ({oldProfile.Username}): ");
+			var _username = Console.ReadLine();
+			var username = _username == string.Empty ? oldProfile.Username : _username;
 
-			// Console.Write("Port (22): ");
-			// var _port = Console.ReadLine();
-			// var port = _port == string.Empty ? null : _port;
+			var oldPort = oldProfile.Port != null ? oldProfile.Port : "22";
+			Console.Write($"Port ({oldPort}): ");
+			var _port = Console.ReadLine();
+			var port = _port == string.Empty ? null : _port;
 
-			// Console.Write("Group (default): ");
-			// var _group = Console.ReadLine();
-			// var group = _group == string.Empty ? "default" : _group;
+			Console.Write($"Group ({oldProfile.Group}): ");
+			var _group = Console.ReadLine();
+			var group = _group == string.Empty ? "default" : _group;
 
+			var profile = new Profile {
+				Name = name
+				, Username = username
+				, Hostname = hostname
+				, Group = group
+				, Port = port
+			};
 
-			// var profile = new Profile {
-			// 	Name = name
-			// 	, Username = username
-			// 	, Hostname = hostname
-			// 	, Group = group
-			// 	, Port = port
-			// };
+			pm.UpdateProfile(profile, oldProfile.Name);
 
-			// pm.AddProfile(profile);
-
-			// return 0;
+			return 0;
 		}
 
 		private static int ExecuteDelete(DeleteOptions options) {
