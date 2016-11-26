@@ -7,7 +7,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             "program": "${workspaceRoot}\\src\\Quiet\\bin\\Debug\\netcoreapp1.0\\Quiet.dll",
-            "args": ["add", "-i"],
+            "args": ["list"],
             "cwd": "${workspaceRoot}",
             "externalConsole": true,
             "stopAtEntry": false,

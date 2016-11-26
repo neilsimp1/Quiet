@@ -5,20 +5,29 @@ using Quiet.Options;
 
 namespace Quiet {
 	public class Program {
-
+		
 		static ProfileManager pm = new ProfileManager();
 
 		public static int Main(string[] args) {
-			var result = CommandLine.Parser.Default.ParseArguments<ConnectOptions, AddOptions
-				, UpdateOptions, DeleteOptions, ListOptions>(args)
-			.MapResult(
-				(ConnectOptions options) => ExecuteConnect(options)
-				, (AddOptions options) => options.Interactive ? ExecuteAddInteractive() : ExecuteAdd(options)
-				, (UpdateOptions options) => options.Interactive ? ExecuteUpdateInteractive(options.Name) : ExecuteUpdate(options)
-				, (DeleteOptions options) => ExecuteDelete(options)
-				, (ListOptions options) => ExecuteList(options)
-				, errs => 1
-			);
+			int result;
+
+			if(args.Length == 1 && !IsVerb(args[0])){
+				result = CommandLine.Parser.Default.ParseArguments<ConnectOptions>(args)
+					.MapResult((ConnectOptions options) => ExecuteConnect(options), errs => 1);
+				return result;
+			}
+			else{
+				result = CommandLine.Parser.Default.ParseArguments<ConnectOptions, AddOptions
+					, UpdateOptions, DeleteOptions, ListOptions>(args)
+				.MapResult(
+					(ConnectOptions options) => ExecuteConnect(options)
+					, (AddOptions options) => options.Interactive ? ExecuteAddInteractive() : ExecuteAdd(options)
+					, (UpdateOptions options) => options.Interactive ? ExecuteUpdateInteractive(options.Name) : ExecuteUpdate(options)
+					, (DeleteOptions options) => ExecuteDelete(options)
+					, (ListOptions options) => ExecuteList(options)
+					, errs => 1
+				);
+			}
 
 			return result;
 		}
@@ -194,6 +203,14 @@ namespace Quiet {
 			if(profile.Port != null) sb.Append($" -p {profile.Port}");
 
 			return sb.ToString();
+		}
+
+		private static bool IsVerb(string arg) {
+			return (arg == "connect"
+					|| arg == "list"
+					|| arg == "add"
+					|| arg == "update"
+					|| arg == "delete"); 
 		}
 
 	}

@@ -8,6 +8,13 @@ namespace Quiet.Options {
 		[Option('n', "name", HelpText = "Specify a profile to connect to")]
 		public string Name { get; set; }
 
+		[ValueAttribute(0)]
+		public string UnboundName {
+			set {
+				this.Name = value;
+			}
+		}
+
 	}
 	
 }
