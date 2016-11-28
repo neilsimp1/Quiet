@@ -44,7 +44,7 @@ quiet delete <profileName>
 ```
 quiet update <profileName> -u <newUsername> 
 Interactive:
-quiet update -i
+quiet update <profileName> -i
 ```
 
 All CRUD options on the profiles can be done by manually editing the `profiles.json` folder as well. It's as simple a structure as you'd expect.
