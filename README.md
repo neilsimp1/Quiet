@@ -25,22 +25,26 @@ quiet list
 
 ###Connect to a profile
 ```
-quiet connect -n <profileName>
+quiet connect <profileName>
 ```
 
 ###Add a profile
 ```
 quiet add -n <profileName> -u <username> -h <hostname> -p <port> -g <profileGroup>
+Interactive:
+quiet add -i
 ```
 
 ###Delete a profile
 ```
-quiet delete -n <profileName>
+quiet delete <profileName>
 ```
 
 ###Update a profile
 ```
-quiet update -n <profileName> -u <newUsername>
+quiet update <profileName> -u <newUsername> 
+Interactive:
+quiet update -i
 ```
 
 All CRUD options on the profiles can be done by manually editing the `profiles.json` folder as well. It's as simple a structure as you'd expect.
