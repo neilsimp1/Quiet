@@ -74,9 +74,9 @@ namespace Quiet {
 
 			var profile = new Profile {
 				Name = options.Name
+				, Group = options.Group
 				, Hostname = options.Hostname
 				, Username = options.Username
-				, Group = options.Group
 				, Port = options.Port
 			};
 
@@ -96,6 +96,10 @@ namespace Quiet {
 				else break;
 			}
 
+			Console.Write("Group (default): ");
+			var _group = Console.ReadLine();
+			var group = _group == string.Empty ? "default" : _group;
+
 			Console.Write("Hostname: ");
 			var hostname = Console.ReadLine();
 			
@@ -106,16 +110,11 @@ namespace Quiet {
 			var _port = Console.ReadLine();
 			var port = _port == string.Empty ? null : _port;
 
-			Console.Write("Group (default): ");
-			var _group = Console.ReadLine();
-			var group = _group == string.Empty ? "default" : _group;
-
-
 			var profile = new Profile {
 				Name = name
-				, Username = username
-				, Hostname = hostname
 				, Group = group
+				, Hostname = hostname
+				, Username = username
 				, Port = port
 			};
 
@@ -132,9 +131,9 @@ namespace Quiet {
 
 			var profile = new Profile {
 				Name = options.NewName == null ? options.Name : options.NewName
+				, Group = options.Group
 				, Hostname = options.Hostname
 				, Username = options.Username
-				, Group = options.Group
 				, Port = options.Port
 			};
 
@@ -160,6 +159,10 @@ namespace Quiet {
 				else break;
 			}
 			var name = _name == string.Empty ? oldProfile.Name : _name;
+
+			Console.Write($"Group ({oldProfile.Group}): ");
+			var _group = Console.ReadLine();
+			var group = _group == string.Empty ? "default" : _group;
 			
 			Console.Write($"Hostname ({oldProfile.Hostname}): ");
 			var _hostname = Console.ReadLine();
@@ -174,15 +177,11 @@ namespace Quiet {
 			var _port = Console.ReadLine();
 			var port = _port == string.Empty ? null : _port;
 
-			Console.Write($"Group ({oldProfile.Group}): ");
-			var _group = Console.ReadLine();
-			var group = _group == string.Empty ? "default" : _group;
-
 			var profile = new Profile {
 				Name = name
-				, Username = username
-				, Hostname = hostname
 				, Group = group
+				, Hostname = hostname
+				, Username = username
 				, Port = port
 			};
 
@@ -205,7 +204,8 @@ namespace Quiet {
 		private static string BuildCommand(Profile profile) {
 			System.Text.StringBuilder sb = new System.Text.StringBuilder();
 			
-			sb.Append($"{profile.Username}@{profile.Hostname}");
+			if(profile.Username != null)sb.Append($"{profile.Username}@");
+			sb.Append($"{profile.Hostname}");
 			if(profile.Port != null) sb.Append($" -p {profile.Port}");
 
 			return sb.ToString();
