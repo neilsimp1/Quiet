@@ -50,11 +50,15 @@ namespace Quiet {
 					, CreateNoWindow = false
 				}
 			};
-			//Console.WriteLine($"ssh {args}");
 
-			proc.Start();
-			proc.WaitForExit();
-
+			if(options.Print){
+				Console.WriteLine($"ssh {args}");
+			}
+			else{
+				proc.Start();
+				proc.WaitForExit();
+			}
+			
 			return 0;
 		}
 
