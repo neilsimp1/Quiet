@@ -1,4 +1,4 @@
-#Quiet - SSH Profile Manager for Windows, Linux, and Mac
+# Quiet - SSH Profile Manager for Windows, Linux, and Mac
 
 
 Quiet is a CLI SSH profile manager that runs on .Net Core.
@@ -8,39 +8,39 @@ Windows users, see https://github.com/PowerShell/Win32-OpenSSH.
 
 This allows for an easy way to manage SSH connections across operating systems. All profiles are stored in a JSON file in your home directory.
 
-##Why?
+## Why?
 There are several different ways to manage SSH connections on Linux and Mac.
-On Windows, the default is [PuTTy](www.putty.org). There's nothing wrong with PuTTy - it's a great little program, in fact - but I wanted something that ran the same on all OS's.
+On Windows, the default is [PuTTy](www.putty.org). There's nothing wrong with PuTTy, but I wanted something that ran the same on all OS's.
 
 I also wanted something that was simple to manage without any features that I never used.
 
 Lastly, having this done in a CLI means that I could use whatever console I wanted in Windows, and not be stuck with the console window that PuTTy opens.
 
-##How?
+## How?
 
-###List profiles
+### List profiles
 ```
 quiet list
 ```
 
-###Connect to a profile
+### Connect to a profile
 ```
 quiet connect <profileName>
 ```
 
-###Add a profile
+### Add a profile
 ```
 quiet add -n <profileName> -u <username> -h <hostname> -p <port> -g <profileGroup>
 Interactive:
 quiet add -i
 ```
 
-###Delete a profile
+### Delete a profile
 ```
 quiet delete <profileName>
 ```
 
-###Update a profile
+### Update a profile
 ```
 quiet update <profileName> -u <newUsername> 
 Interactive:
@@ -50,6 +50,6 @@ quiet update <profileName> -i
 All CRUD options on the profiles can be done by manually editing the `profiles.json` folder as well. It's as simple a structure as you'd expect.
 
 
-##Install
+## Install
 
 Coming soon...
