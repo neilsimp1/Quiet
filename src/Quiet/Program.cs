@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using CommandLine;
 using Quiet.Options;
 
@@ -9,6 +10,8 @@ namespace Quiet {
 		static ProfileManager pm = new ProfileManager();
 
 		public static int Main(string[] args) {
+			Startup();
+			
 			int result;
 
 			if(args.Length == 1 && !IsVerb(args[0])){
@@ -30,6 +33,14 @@ namespace Quiet {
 			}
 
 			return result;
+		}
+
+		private static void Startup() {
+			var profilePath = ProfileManager.GetProfilesPath();
+			if (!File.Exists(profilePath)){
+				Directory.CreateDirectory(profilePath.Replace("/profiles.json", ""));
+				File.WriteAllText(profilePath, "[]");
+			}
 		}
 
 		private static int ExecuteConnect(ConnectOptions options) {

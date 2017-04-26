@@ -15,7 +15,7 @@ namespace Quiet{
 			Profiles = JsonConvert.DeserializeObject<IEnumerable<Profile>>(json);
 		}
 
-		private static string GetProfilesPath() {
+		public static string GetProfilesPath() {
 			var path = "/.quiet/profiles.json";
 			return System.Runtime.InteropServices.RuntimeInformation.OSDescription.Contains("Windows")
 				? Environment.GetEnvironmentVariable("USERPROFILE") + path
