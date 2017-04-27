@@ -1,0 +1,7 @@
+Package: Quiet
+Version: 1.0.0
+Section: base
+Priority: optional
+Architecture: any
+Maintainer: Neil Simpson <neilsimp1@gmail.com>
+Description: SSH Profile Manager for Windows, Linux, and Mac
