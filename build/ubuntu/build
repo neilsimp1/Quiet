@@ -7,3 +7,7 @@ dotnet build
 dotnet publish -c release -r ubuntu.16.04-x64
 
 cp -r src/Quiet/bin/Release/netcoreapp1.1/ubuntu.16.04-x64/publish/* build/ubuntu/quiet_1.0.0/usr/local/bin/
+
+cd build/ubuntu
+
+dpkg-deb --build quiet_1.0.0
