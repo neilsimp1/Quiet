@@ -47,7 +47,7 @@ Interactive:
 quiet update <profileName> -i
 ```
 
-All CRUD options on the profiles can be done by manually editing the `profiles.json` folder as well. It's as simple a structure as you'd expect.
+All CRUD options on the profiles can be done by manually editing the `profiles.json` file under `$HOME/.quiet`. It's as simple a structure as you'd expect.
 
 
 ## Install
